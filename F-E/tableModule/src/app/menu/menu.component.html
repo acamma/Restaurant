@@ -1,38 +1,36 @@
-<p>{{orderForm.value | json}}</p>
-<div *ngIf="menu" class="row mt-5" >
-  <div class="col-md-6" *ngFor="let category of menu['categories']">
+<div *ngIf="menu" class="row mt-5">
+  <div class="col-md-6" *ngFor="let menuItem of menu ; let i = index">
     <div class="card text-center mt-5">
-      <div class="card-body" [formGroup]="orderForm">
-        <h5 class="card-title">{{category.name}}</h5>
-        <div *ngFor="let product of menu['products'] ; let i = index" >
-          <div *ngIf="product.categoryId === category.categoryId">
-            <form class="list-group-item card-block" formArrayName="products">
-              <div class="row" [formGroupName]="i">
-                <div class="col-md-3">
-                  {{product.name}}
-                </div>
-                <div class="col-md-9">
-                  <div class="row" >
-                    <div class=" col-md-9">
-                      <div class="row">
-                        <span class=" col-md-3">{{product.price | currency: 'EUR'}}</span>
-                        <label for="quantity" class="col-md-6">Quantity:</label>
-                        <input formControlName="quantity" class="form-control col-md-3" type="number" id="quantity" value=0 min="0" max="50">
-                      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{menuItem.category.name}}</h5>
+        <div *ngFor="let product of menuItem.products ; let j = index">
+          <form class="list-group-item card-block">
+            <div class="row">
+              <div class="col-md-3">
+                {{product.name}}
+              </div>
+              <div class="col-md-9">
+                <div class="row">
+                  <div class=" col-md-9">
+                    <div class="row">
+                      <span class=" col-md-3">{{product.price | currency: 'EUR'}}</span>
+                      <label for="quantity" class="col-md-6">Quantity:</label>
+                      <input [(ngModel)]="quantity[i][j]" class="form-control col-md-3" type="number" id="quantity" name="quantity" [value]=0 min="0"
+                        max="50">
                     </div>
-                    <div class="col-md-3 btn-group btn-group-sm">
-                      <button type="button" (click)="addToCart(product.productId, quantity)" [disabled]="quantity == 0" class="card-link btn btn-primary btn-sm"
-                        aria-pressed="true">+</button>
-                      <button type="button" (click)="updateCart(product.productId, quantity)" [disabled]="quantity == 0" class="card-link btn btn-primary btn-sm"
-                        aria-pressed="true">-</button>
-                      <!-- <button type="button" (click)="updateCart(product.productId, quantity.value)" [disabled]="quantity.value == 0" class="card-link btn btn-primary btn-sm"
+                  </div>
+                  <div class="col-md-3 btn-group btn-group-sm">
+                    <button type="button" (click)="addToCart(product.productId, quantity[i][j])" [disabled]="quantity[i][j] === 0" class="card-link btn btn-primary btn-sm"
+                      aria-pressed="true">+</button>
+                    <button type="button" (click)="updateCart(product.productId, quantity[i][j])" [disabled]="quantity[i][j] === 0" class="card-link btn btn-primary btn-sm"
+                      aria-pressed="true">-</button>
+                    <!-- <button type="button" (click)="updateCart(product.productId, quantity.value)" [disabled]="quantity.value == 0" class="card-link btn btn-primary btn-sm"
                           aria-pressed="true">u</button> -->
-                    </div>
                   </div>
                 </div>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
       <div class="card-footer text-muted">

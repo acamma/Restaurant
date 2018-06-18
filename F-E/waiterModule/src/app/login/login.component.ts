@@ -23,7 +23,7 @@ export class LoginComponent {
       res => {
         localStorage.setItem("waiterId", String(res.employeeId));
         console.log(res);
-        this.router.navigate(["/ordini"]);
+        this.router.navigate(["/menu"]);
       },
       error => alert(error)
     );

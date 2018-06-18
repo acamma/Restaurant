@@ -3,6 +3,7 @@ package com.restaurant.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.restaurant.Restaurant;
 import com.restaurant.model.Category;
+import com.restaurant.model.MenuItem;
 import com.restaurant.model.Product;
 import com.restaurant.model.Table;
 
@@ -43,19 +45,18 @@ public class TableController extends Restaurant{
 	}
 	
 	@RequestMapping(value = "/menu", method = RequestMethod.GET)
-	public HashMap<Object,Object> menu() {
+	public List<MenuItem> menu() {
 		LOGGER.info("Retrieving menu...");
-		HashMap<Object,Object> menu = new HashMap<Object,Object>();
-		ArrayList<Category> categories = new ArrayList<Category>();
-		ArrayList<Product> products = new ArrayList<Product>();
+		
+		ArrayList<MenuItem> menu = new ArrayList<MenuItem>();
 		Iterator<Category> it = categoryRepository.findAll().iterator();
 		while(it.hasNext()) {
+			MenuItem menuItem = new MenuItem();
 			Category category = it.next();
-			categories.add(category);
-			products.addAll(productRepository.getProductByCategoryId(category.getCategoryId()));
+			menuItem.setCategory(category);
+			menuItem.setProducts((productRepository.getProductByCategoryId(category.getCategoryId())));
+			menu.add(menuItem);
 		}
-		menu.put("categories", categories);
-		menu.put("products", products);
 		return menu;
 	}
 }

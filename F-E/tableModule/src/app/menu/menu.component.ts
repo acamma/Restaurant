@@ -3,6 +3,7 @@ import { OrderService } from './../order.service';
 import { Component, OnInit } from '@angular/core';
 import { Order } from '../models/order';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
+import { MenuItem } from '../models/menu-item';
 
 @Component({
   selector: 'app-menu',
@@ -13,31 +14,13 @@ export class MenuComponent implements OnInit {
 
   orderForm: FormGroup;
   items: any[] = [];
-  menu: Map<string, any>;
+  menu: MenuItem[];
   order: Order;
+  quantity: number[][];
 
   constructor(private ord: OrderService, private fb: FormBuilder) { }
 
   ngOnInit() {
-    // this.orderForm = this.fb.group({
-    //   productCategories: this.fb.array([
-    //     this.fb.group({
-    //       categoryName: new FormControl(""),
-    //       products: this.fb.array([
-    //         this.fb.group({
-    //           productName: new FormControl(""),
-    //           productPrice: new FormControl(0.00),
-    //           quantity: new FormControl(0)
-    //         })
-    //       ])
-    //     })
-    //   ])
-    // });
-    this.orderForm = this.fb.group({
-      products: this.fb.array([
-        this.fb.group({ quantity: new FormControl(0) })
-      ])
-    });
     this.order = new Order();
     this.order.details = [];
     this.getMenu();
@@ -48,6 +31,12 @@ export class MenuComponent implements OnInit {
       res => {
         console.log(res);
         this.menu = res;
+        this.quantity = Array(this.menu.length);
+        this.menu.forEach((menuItem, i) => {
+          this.quantity[i] = Array(menuItem.products.length);
+          this.quantity[i].fill(0);
+        });
+        console.log(this.quantity);
       },
       error => alert(error)
     );
