@@ -1,0 +1,34 @@
+<p>{{orderForm.value | json}}</p>
+<div *ngIf="menu" class="row mt-5" >
+  <div class="col-md-6" *ngFor="let category of menu['categories']">
+    <div class="card text-center mt-5">
+      <div class="card-body" [formGroup]="orderForm">
+        <h5 class="card-title">{{category.name}}</h5>
+        <div *ngFor="let product of menu['products'] ; let i = index" >
+          <div *ngIf="product.categoryId === category.categoryId">
+            <form class="list-group-item card-block" formArrayName="products">
+              <div class="row" [formGroupName]="i">
+                <div class="col-md-3">
+                  {{product.name}}
+                </div>
+                <div class="col-md-9">
+                  <div class="row" >
+                    <div class=" col-md-9">
+                      <div class="row">
+                        <span class=" col-md-3">{{product.price | currency: 'EUR'}}</span>
+                        <label for="quantity" class="col-md-6">Quantity:</label>
+                        <input formControlName="quantity" class="form-control col-md-3" type="number" id="quantity" value=0 min="0" max="50">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-muted">
+      </div>
+    </div>
+  </div>
+</div>
