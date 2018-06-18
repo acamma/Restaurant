@@ -1,0 +1,8 @@
+/.metadata/
+.idea/
+.settings/
+.vscode/
+/.project
+/restaurant/node_modules
+/tableModule/node_modules
+/waiterModule/node_modules
