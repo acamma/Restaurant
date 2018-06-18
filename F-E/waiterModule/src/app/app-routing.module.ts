@@ -4,11 +4,13 @@ import { Routes } from '@angular/router/src/config';
 import { LoginComponent } from 'src/app/login/login.component';
 import { OrdiniComponent } from 'src/app/ordini/ordini.component';
 import { RouterModule } from '@angular/router';
+import { MenuComponent } from 'src/app/menu/menu.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "/login", pathMatch: "full" },
   { path: "login", component: LoginComponent },
   { path: "order", component: OrdiniComponent },
+  { path: "menu", component: MenuComponent },
   { path: "**", component: LoginComponent }
 ];
 
